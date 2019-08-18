@@ -4,19 +4,12 @@ import (
 	"testing"
 )
 
-func TestEntityShouldHaveReferenceToNeighbors(t *testing.T) {
-	var entity Entity
-	if entity.Up != nil || entity.Left != nil || entity.Right != nil || entity.Down != nil {
-		t.Fail()
-	}
-}
-
 func TestShouldGetUpEntity(t *testing.T) {
 	var someEntity Entity
 	var someOtherEntity Entity
-	someEntity.Up = &someOtherEntity
+	someEntity.SetUp(&someOtherEntity)
 
-	actualEntity := someEntity.UpEntity()
+	actualEntity := someEntity.Up()
 
 	if actualEntity == nil {
 		t.Error("Up entity not assigned")
@@ -29,9 +22,9 @@ func TestShouldGetUpEntity(t *testing.T) {
 func TestShouldGetDownEntity(t *testing.T) {
 	var someEntity Entity
 	var someOtherEntity Entity
-	someEntity.Down = &someOtherEntity
+	someEntity.SetDown(&someOtherEntity)
 
-	actualEntity := someEntity.DownEntity()
+	actualEntity := someEntity.Down()
 
 	if actualEntity == nil {
 		t.Error("Up entity not assigned")
@@ -44,9 +37,9 @@ func TestShouldGetDownEntity(t *testing.T) {
 func TestShouldGetLeftEntity(t *testing.T) {
 	var someEntity Entity
 	var someOtherEntity Entity
-	someEntity.Left = &someOtherEntity
+	someEntity.SetLeft(&someOtherEntity)
 
-	actualEntity := someEntity.LeftEntity()
+	actualEntity := someEntity.Left()
 
 	if actualEntity == nil {
 		t.Error("Up entity not assigned")
@@ -59,9 +52,9 @@ func TestShouldGetLeftEntity(t *testing.T) {
 func TestShouldGetRightEntity(t *testing.T) {
 	var someEntity Entity
 	var someOtherEntity Entity
-	someEntity.Right = &someOtherEntity
+	someEntity.SetRight(&someOtherEntity)
 
-	actualEntity := someEntity.RightEntity()
+	actualEntity := someEntity.Right()
 
 	if actualEntity == nil {
 		t.Error("Up entity not assigned")

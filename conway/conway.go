@@ -2,25 +2,45 @@ package conway
 
 //Entity represents a life-form in Conway's Game of Life
 type Entity struct {
-	Up, Down, Left, Right *Entity
+	up, down, left, right *Entity
 }
 
-//UpEntity returns the reference to the neighbor above the calling entity
-func (entity *Entity) UpEntity() *Entity {
-	return entity.Up
+//Up returns the reference to the neighbor above the calling entity
+func (entity *Entity) Up() *Entity {
+	return entity.up
 }
 
-//DownEntity returns the reference to the neighbor below the calling entity
-func (entity *Entity) DownEntity() *Entity {
-	return entity.Down
+//Down returns the reference to the neighbor below the calling entity
+func (entity *Entity) Down() *Entity {
+	return entity.down
 }
 
-//LeftEntity returns the reference to the neighbor left of the calling entity
-func (entity *Entity) LeftEntity() *Entity {
-	return entity.Left
+//Left returns the reference to the neighbor left of the calling entity
+func (entity *Entity) Left() *Entity {
+	return entity.left
 }
 
-//RightEntity returns the reference to the neighbor right of the calling entity
-func (entity *Entity) RightEntity() *Entity {
-	return entity.Right
+//Right returns the reference to the neighbor right of the calling entity
+func (entity *Entity) Right() *Entity {
+	return entity.right
+}
+
+//SetUp sets the reference to the neighbor above the calling entity
+func (entity *Entity) SetUp(upEntity *Entity) {
+	entity.up = upEntity
+}
+
+//SetDown sets the reference to the neighbor below the calling entity
+func (entity *Entity) SetDown(downEntity *Entity) {
+	entity.down = downEntity
+}
+
+//SetLeft sets the reference to the neighbor below the calling entity
+func (entity *Entity) SetLeft(leftEntity *Entity) {
+	entity.left = leftEntity
+}
+
+//SetRight sets the reference to the neighbor below the calling entity
+func (entity *Entity) SetRight(rightEntity *Entity) {
+	entity.right = rightEntity
 }
