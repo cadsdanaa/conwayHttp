@@ -18,6 +18,19 @@ func (entity Entity) IsOverpopulated() bool {
 	return neighborCount > 3
 }
 
+//LivesOn returns true if the entity is currently alive and has exactly 2 or 3 neighbors
+func (entity Entity) LivesOn() bool {
+	neighborCount := totalNeighbors(entity)
+	return entity.living && (neighborCount == 2 || neighborCount == 3)
+}
+
+//LivesOn returns true if the entity is currently dead and has exactly 3 neighbors
+func (entity Entity) Reproduces() bool {
+	neighborCount := totalNeighbors(entity)
+	return !entity.living && neighborCount == 3
+}
+
+//totalNeighbors counts the number of living neighbors an entity has
 func totalNeighbors(entity Entity) int {
 	var neighborCount = 0
 	if entity.northwest.living {
