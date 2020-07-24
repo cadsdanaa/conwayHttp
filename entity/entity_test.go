@@ -1,4 +1,4 @@
-package conway
+package entity
 
 import (
 	"testing"
@@ -8,7 +8,6 @@ func TestShouldGetUpEntity(t *testing.T) {
 	var someEntity Entity
 	var someOtherEntity Entity
 	someEntity.SetUp(&someOtherEntity)
-
 	actualEntity := someEntity.Up()
 
 	if actualEntity == nil {

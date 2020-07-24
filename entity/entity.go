@@ -1,4 +1,4 @@
-package conway
+package entity
 
 //Entity represents a life-form in Conway's Game of Life
 type Entity struct {
