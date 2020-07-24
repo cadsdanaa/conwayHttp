@@ -3,36 +3,48 @@ package entity
 //Entity represents a life-form in Conway's Game of Life
 type Entity struct {
 	north, south, west, east, northwest, northeast, southwest, southeast *Entity
+	living                                                               bool
 }
 
 //IsUnderpopulated returns true if the total number of neighbors for the entity is less than 2
 func (entity Entity) IsUnderpopulated() bool {
-	var neighborCount = 0
-	if entity.northwest != nil {
-		neighborCount++
-	}
-	if entity.north != nil {
-		neighborCount++
-	}
-	if entity.northeast != nil {
-		neighborCount++
-	}
-	if entity.east != nil {
-		neighborCount++
-	}
-	if entity.southeast != nil {
-		neighborCount++
-	}
-	if entity.south != nil {
-		neighborCount++
-	}
-	if entity.southwest != nil {
-		neighborCount++
-	}
-	if entity.west != nil {
-		neighborCount++
-	}
+	neighborCount := totalNeighbors(entity)
 	return neighborCount < 2
+}
+
+//IsOverpopulated returns true if the total number of neighbors for the entity is more than 3
+func (entity Entity) IsOverpopulated() bool {
+	neighborCount := totalNeighbors(entity)
+	return neighborCount > 3
+}
+
+func totalNeighbors(entity Entity) int {
+	var neighborCount = 0
+	if entity.northwest.living {
+		neighborCount++
+	}
+	if entity.north.living {
+		neighborCount++
+	}
+	if entity.northeast.living {
+		neighborCount++
+	}
+	if entity.east.living {
+		neighborCount++
+	}
+	if entity.southeast.living {
+		neighborCount++
+	}
+	if entity.south.living {
+		neighborCount++
+	}
+	if entity.southwest.living {
+		neighborCount++
+	}
+	if entity.west.living {
+		neighborCount++
+	}
+	return neighborCount
 }
 
 //North returns the reference to the neighbor north the calling entity

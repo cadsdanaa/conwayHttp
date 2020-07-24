@@ -11,21 +11,41 @@ type entityTestScenarios struct {
 
 func TestShouldDetermineUnderpopulation(t *T) {
 	underpopulationScenarios := []entityTestScenarios{
-		{entity(nil, nil, nil, nil, nil, nil, nil, nil), true},
-		{entity(&Entity{}, nil, nil, nil, nil, nil, nil, nil), true},
-		{entity(nil, &Entity{}, nil, nil, nil, nil, nil, nil), true},
-		{entity(nil, nil, &Entity{}, nil, nil, nil, nil, nil), true},
-		{entity(nil, nil, nil, &Entity{}, nil, nil, nil, nil), true},
-		{entity(nil, nil, nil, nil, &Entity{}, nil, nil, nil), true},
-		{entity(nil, nil, nil, nil, nil, &Entity{}, nil, nil), true},
-		{entity(nil, nil, nil, nil, nil, nil, &Entity{}, nil), true},
-		{entity(nil, nil, nil, nil, nil, nil, nil, &Entity{}), true},
-		{entity(&Entity{}, &Entity{}, nil, nil, nil, nil, nil, nil), false},
-		{entity(nil, nil, &Entity{}, nil, nil, &Entity{}, nil, nil), false},
-		{entity(nil, nil, nil, &Entity{}, nil, nil, nil, &Entity{}), false},
+		{entity(dead(), dead(), dead(), dead(), dead(), dead(), dead(), dead()), true},
+		{entity(alive(), dead(), dead(), dead(), dead(), dead(), dead(), dead()), true},
+		{entity(dead(), alive(), dead(), dead(), dead(), dead(), dead(), dead()), true},
+		{entity(dead(), dead(), alive(), dead(), dead(), dead(), dead(), dead()), true},
+		{entity(dead(), dead(), dead(), alive(), dead(), dead(), dead(), dead()), true},
+		{entity(dead(), dead(), dead(), dead(), alive(), dead(), dead(), dead()), true},
+		{entity(dead(), dead(), dead(), dead(), dead(), alive(), dead(), dead()), true},
+		{entity(dead(), dead(), dead(), dead(), dead(), dead(), alive(), dead()), true},
+		{entity(dead(), dead(), dead(), dead(), dead(), dead(), dead(), alive()), true},
+		{entity(alive(), alive(), dead(), dead(), dead(), dead(), dead(), dead()), false},
+		{entity(dead(), dead(), alive(), dead(), dead(), alive(), dead(), dead()), false},
+		{entity(dead(), dead(), dead(), alive(), dead(), dead(), dead(), alive()), false},
 	}
 	for _, scenario := range underpopulationScenarios {
 		isUnderpopulated := scenario.inputEntity.IsUnderpopulated()
+		if isUnderpopulated != scenario.result {
+			t.Fail()
+		}
+	}
+}
+
+func TestShouldDetermineOverpopulation(t *T) {
+	underpopulationScenarios := []entityTestScenarios{
+		{entity(dead(), dead(), dead(), dead(), dead(), dead(), dead(), dead()), false},
+		{entity(alive(), dead(), dead(), dead(), dead(), dead(), dead(), dead()), false},
+		{entity(alive(), alive(), dead(), dead(), dead(), dead(), dead(), dead()), false},
+		{entity(alive(), alive(), alive(), dead(), dead(), dead(), dead(), dead()), false},
+		{entity(alive(), alive(), alive(), alive(), dead(), dead(), dead(), dead()), true},
+		{entity(alive(), alive(), alive(), alive(), alive(), dead(), dead(), dead()), true},
+		{entity(alive(), alive(), alive(), alive(), alive(), alive(), dead(), dead()), true},
+		{entity(alive(), alive(), alive(), alive(), alive(), alive(), alive(), dead()), true},
+		{entity(alive(), alive(), alive(), alive(), alive(), alive(), alive(), alive()), true},
+	}
+	for _, scenario := range underpopulationScenarios {
+		isUnderpopulated := scenario.inputEntity.IsOverpopulated()
 		if isUnderpopulated != scenario.result {
 			t.Fail()
 		}
@@ -96,7 +116,7 @@ func TestShouldGetNorthWestEntity(t *T) {
 	var someOtherEntity Entity
 	someEntity.SetNorthwest(&someOtherEntity)
 
-	actualEntity := someEntity.East()
+	actualEntity := someEntity.Northwest()
 
 	if actualEntity == nil {
 		t.Error("Northwest entity not assigned")
@@ -111,7 +131,7 @@ func TestShouldGetNorthEastEntity(t *T) {
 	var someOtherEntity Entity
 	someEntity.SetNortheast(&someOtherEntity)
 
-	actualEntity := someEntity.East()
+	actualEntity := someEntity.Northeast()
 
 	if actualEntity == nil {
 		t.Error("Northeast entity not assigned")
@@ -126,7 +146,7 @@ func TestShouldGetSouthWestEntity(t *T) {
 	var someOtherEntity Entity
 	someEntity.SetSouthwest(&someOtherEntity)
 
-	actualEntity := someEntity.East()
+	actualEntity := someEntity.Southwest()
 
 	if actualEntity == nil {
 		t.Error("Southwest entity not assigned")
@@ -141,7 +161,7 @@ func TestShouldGetSouthEastEntity(t *T) {
 	var someOtherEntity Entity
 	someEntity.SetSoutheast(&someOtherEntity)
 
-	actualEntity := someEntity.East()
+	actualEntity := someEntity.Southeast()
 
 	if actualEntity == nil {
 		t.Error("Southeast entity not assigned")
@@ -153,6 +173,7 @@ func TestShouldGetSouthEastEntity(t *T) {
 
 func entity(nw, n, ne, e, se, s, sw, w *Entity) Entity {
 	var testEntity Entity
+	testEntity.living = true
 	testEntity.SetNorth(n)
 	testEntity.SetNorthwest(nw)
 	testEntity.SetNortheast(ne)
@@ -162,4 +183,12 @@ func entity(nw, n, ne, e, se, s, sw, w *Entity) Entity {
 	testEntity.SetSouthwest(sw)
 	testEntity.SetWest(w)
 	return testEntity
+}
+
+func alive() *Entity {
+	return &Entity{living: true}
+}
+
+func dead() *Entity {
+	return &Entity{}
 }
