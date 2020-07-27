@@ -1,7 +1,6 @@
-package conwayHttp
+package main
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -11,5 +10,8 @@ func main() {
 }
 
 func conwayHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hello, World!")
+	_, e := w.Write([]byte("Conway Http"))
+	if e != nil {
+		w.WriteHeader(500)
+	}
 }

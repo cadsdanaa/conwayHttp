@@ -3,7 +3,7 @@ package entity
 //Entity represents a life-form in Conway's Game of Life
 type Entity struct {
 	north, south, west, east, northwest, northeast, southwest, southeast *Entity
-	living                                                               bool
+	Living                                                               bool
 }
 
 //IsUnderpopulated returns true if the total number of neighbors for the entity is less than 2
@@ -21,40 +21,40 @@ func (entity Entity) IsOverpopulated() bool {
 //LivesOn returns true if the entity is currently alive and has exactly 2 or 3 neighbors
 func (entity Entity) LivesOn() bool {
 	neighborCount := totalNeighbors(entity)
-	return entity.living && (neighborCount == 2 || neighborCount == 3)
+	return entity.Living && (neighborCount == 2 || neighborCount == 3)
 }
 
 //LivesOn returns true if the entity is currently dead and has exactly 3 neighbors
 func (entity Entity) Reproduces() bool {
 	neighborCount := totalNeighbors(entity)
-	return !entity.living && neighborCount == 3
+	return !entity.Living && neighborCount == 3
 }
 
 //totalNeighbors counts the number of living neighbors an entity has
 func totalNeighbors(entity Entity) int {
 	var neighborCount = 0
-	if entity.northwest.living {
+	if entity.northwest.Living {
 		neighborCount++
 	}
-	if entity.north.living {
+	if entity.north.Living {
 		neighborCount++
 	}
-	if entity.northeast.living {
+	if entity.northeast.Living {
 		neighborCount++
 	}
-	if entity.east.living {
+	if entity.east.Living {
 		neighborCount++
 	}
-	if entity.southeast.living {
+	if entity.southeast.Living {
 		neighborCount++
 	}
-	if entity.south.living {
+	if entity.south.Living {
 		neighborCount++
 	}
-	if entity.southwest.living {
+	if entity.southwest.Living {
 		neighborCount++
 	}
-	if entity.west.living {
+	if entity.west.Living {
 		neighborCount++
 	}
 	return neighborCount

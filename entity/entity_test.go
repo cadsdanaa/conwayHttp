@@ -208,7 +208,7 @@ func TestShouldGetSouthEastEntity(t *T) {
 
 func entity(nw, n, ne, e, se, s, sw, w *Entity) Entity {
 	var testEntity Entity
-	testEntity.living = true
+	testEntity.Living = true
 	testEntity.SetNorth(n)
 	testEntity.SetNorthwest(nw)
 	testEntity.SetNortheast(ne)
@@ -222,12 +222,12 @@ func entity(nw, n, ne, e, se, s, sw, w *Entity) Entity {
 
 func deadEntity(nw, n, ne, e, se, s, sw, w *Entity) Entity {
 	testEntity := entity(nw, n, ne, e, se, s, sw, w)
-	testEntity.living = false
+	testEntity.Living = false
 	return testEntity
 }
 
 func alive() *Entity {
-	return &Entity{living: true}
+	return &Entity{Living: true}
 }
 
 func dead() *Entity {
