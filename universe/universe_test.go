@@ -1,22 +1,112 @@
 package universe
 
 import (
+	"github.com/cadsdanaa/conwayHttp/entity"
 	"reflect"
+	"strings"
 	. "testing"
 )
 
-//TODO need to implement
+func TestShouldDrawUniverse(t *T) {
+	expected := "-@\n--\n"
+	universe := InitialUniverse(2, 123)
+
+	actual := Draw(universe)
+
+	if strings.TrimSpace(expected) != strings.TrimSpace(actual) {
+		t.Fail()
+	}
+}
+
 func TestShouldSetNeighbors(t *T) {
 	universeSize := 3
-	//D D A
-	//D D D
-	//D D A
 	universe := InitialUniverse(universeSize, 123)
 
-	if universe[1][0].East() != &universe[2][0] {
-		t.Error("East not set")
+	for r, row := range universe {
+		for i := range row {
+			checkNorth(universe, i, r, t)
+			checkNortheast(universe, i, r, t)
+			checkNorthwest(universe, i, r, t)
+			checkEast(universe, i, r, t)
+			checkWest(universe, i, r, t)
+			checkSoutheast(universe, i, r, t)
+			checkSouth(universe, i, r, t)
+			checkSouthwest(universe, i, r, t)
+		}
 	}
 
+}
+
+func checkNorth(universe [][]entity.Entity, x, y int, t *T) {
+	if len(universe)-1 < (y + 1) {
+		return
+	}
+	if universe[x][y].North() != &universe[x][y+1] {
+		t.Error("North not set correctly")
+	}
+}
+
+func checkNortheast(universe [][]entity.Entity, x, y int, t *T) {
+	if len(universe)-1 < (y+1) || len(universe[0])-1 < (x+1) {
+		return
+	}
+	if universe[x][y].Northeast() != &universe[x+1][y+1] {
+		t.Error("Northeast not set correctly")
+	}
+}
+
+func checkEast(universe [][]entity.Entity, x, y int, t *T) {
+	if len(universe[0])-1 < (x + 1) {
+		return
+	}
+	if universe[x][y].East() != &universe[x+1][y] {
+		t.Error("East not set correctly")
+	}
+}
+
+func checkSoutheast(universe [][]entity.Entity, x, y int, t *T) {
+	if (y-1) < 0 || len(universe[0])-1 < (x+1) {
+		return
+	}
+	if universe[x][y].Southeast() != &universe[x+1][y-1] {
+		t.Error("Southeast not set correctly")
+	}
+}
+
+func checkSouth(universe [][]entity.Entity, x, y int, t *T) {
+	if (y - 1) < 0 {
+		return
+	}
+	if universe[x][y].South() != &universe[x][y-1] {
+		t.Error("South not set correctly")
+	}
+}
+
+func checkSouthwest(universe [][]entity.Entity, x, y int, t *T) {
+	if (y-1) < 0 || (x-1) < 0 {
+		return
+	}
+	if universe[x][y].Southwest() != &universe[x-1][y-1] {
+		t.Error("Southwest not set correctly")
+	}
+}
+
+func checkWest(universe [][]entity.Entity, x, y int, t *T) {
+	if (x - 1) < 0 {
+		return
+	}
+	if universe[x][y].West() != &universe[x-1][y] {
+		t.Error("West not set correctly")
+	}
+}
+
+func checkNorthwest(universe [][]entity.Entity, x, y int, t *T) {
+	if len(universe)-1 < (y+1) || (x-1) < 0 {
+		return
+	}
+	if universe[x][y].Northwest() != &universe[x-1][y+1] {
+		t.Error("Northwest not set correctly")
+	}
 }
 
 func TestShouldCreateADeterministicallySeededUniverse(t *T) {
