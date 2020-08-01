@@ -22,16 +22,16 @@ func TestShouldSetNeighbors(t *T) {
 	universeSize := 3
 	universe := InitialUniverse(universeSize, 123)
 
-	for r, row := range universe {
+	for r, row := range universe.Entities {
 		for i := range row {
-			checkNorth(universe, i, r, t)
-			checkNortheast(universe, i, r, t)
-			checkNorthwest(universe, i, r, t)
-			checkEast(universe, i, r, t)
-			checkWest(universe, i, r, t)
-			checkSoutheast(universe, i, r, t)
-			checkSouth(universe, i, r, t)
-			checkSouthwest(universe, i, r, t)
+			checkNorth(universe.Entities, i, r, t)
+			checkNortheast(universe.Entities, i, r, t)
+			checkNorthwest(universe.Entities, i, r, t)
+			checkEast(universe.Entities, i, r, t)
+			checkWest(universe.Entities, i, r, t)
+			checkSoutheast(universe.Entities, i, r, t)
+			checkSouth(universe.Entities, i, r, t)
+			checkSouthwest(universe.Entities, i, r, t)
 		}
 	}
 
@@ -124,10 +124,10 @@ func TestShouldCreateADeterministicallySeededUniverse(t *T) {
 func TestInitialUniverseShouldBeGivenSize(t *T) {
 	size := 25
 	universe := InitialUniverse(size, 0)
-	if len(universe) != size {
+	if len(universe.Entities) != size {
 		t.Fail()
 	}
-	for _, row := range universe {
+	for _, row := range universe.Entities {
 		if len(row) != size {
 			t.Fail()
 		}
@@ -137,7 +137,7 @@ func TestInitialUniverseShouldBeGivenSize(t *T) {
 func TestShouldInitializeUniverse(t *T) {
 	universe := InitialUniverse(20, 0)
 
-	if universe == nil {
+	if universe.Entities == nil {
 		t.Fail()
 	}
 }

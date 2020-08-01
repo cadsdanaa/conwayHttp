@@ -5,26 +5,31 @@ import (
 	"math/rand"
 )
 
-//InitialUniverse creates an initial universe with the given universeSize and randomizedSeed
-func InitialUniverse(universeSize int, universeSeed int64) [][]entity.Entity {
-	universe := initialGrid(universeSize)
-	rand.Seed(universeSeed)
-	for x, row := range universe {
-		for y := range row {
-			if rand.Intn(4) == 1 {
-				universe[x][y] = entity.Entity{Living: true}
-			}
-			setNeighbors(universe, x, y)
-		}
-	}
-	return universe
+type Universe struct {
+	Size     int
+	Entities [][]entity.Entity
 }
 
-func Draw(universe [][]entity.Entity) string {
-	universeString := ""
-	for x, row := range universe {
+//InitialUniverse creates an initial universe with the given universeSize and randomizedSeed
+func InitialUniverse(universeSize int, universeSeed int64) Universe {
+	entities := initialGrid(universeSize)
+	rand.Seed(universeSeed)
+	for x, row := range entities {
 		for y := range row {
-			if universe[x][y].Living {
+			if rand.Intn(4) == 1 {
+				entities[x][y] = entity.Entity{Living: true}
+			}
+			setNeighbors(entities, x, y)
+		}
+	}
+	return Universe{Entities: entities, Size: universeSize}
+}
+
+func Draw(universe Universe) string {
+	universeString := ""
+	for x, row := range universe.Entities {
+		for y := range row {
+			if universe.Entities[x][y].Living {
 				universeString += "@"
 			} else {
 				universeString += "-"
