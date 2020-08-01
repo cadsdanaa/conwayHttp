@@ -25,6 +25,20 @@ func InitialUniverse(universeSize int, universeSeed int64) Universe {
 	return Universe{Entities: entities, Size: universeSize}
 }
 
+func (universe Universe) Progress() Universe {
+	for x, row := range universe.Entities {
+		for y := range row {
+			if !universe.Entities[x][y].LivesOn() {
+				universe.Entities[x][y].Living = false
+			}
+			if universe.Entities[x][y].Reproduces() {
+				universe.Entities[x][y].Living = true
+			}
+		}
+	}
+	return universe
+}
+
 func Draw(universe Universe) string {
 	universeString := ""
 	for x, row := range universe.Entities {

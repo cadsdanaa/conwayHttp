@@ -6,18 +6,6 @@ type Entity struct {
 	Living                                                               bool
 }
 
-//IsUnderpopulated returns true if the total number of neighbors for the entity is less than 2
-func (entity Entity) IsUnderpopulated() bool {
-	neighborCount := totalNeighbors(entity)
-	return neighborCount < 2
-}
-
-//IsOverpopulated returns true if the total number of neighbors for the entity is more than 3
-func (entity Entity) IsOverpopulated() bool {
-	neighborCount := totalNeighbors(entity)
-	return neighborCount > 3
-}
-
 //LivesOn returns true if the entity is currently alive and has exactly 2 or 3 neighbors
 func (entity Entity) LivesOn() bool {
 	neighborCount := totalNeighbors(entity)
@@ -33,28 +21,28 @@ func (entity Entity) Reproduces() bool {
 //totalNeighbors counts the number of living neighbors an entity has
 func totalNeighbors(entity Entity) int {
 	var neighborCount = 0
-	if entity.northwest.Living {
+	if entity.northwest != nil && entity.northwest.Living {
 		neighborCount++
 	}
-	if entity.north.Living {
+	if entity.north != nil && entity.north.Living {
 		neighborCount++
 	}
-	if entity.northeast.Living {
+	if entity.northeast != nil && entity.northeast.Living {
 		neighborCount++
 	}
-	if entity.east.Living {
+	if entity.east != nil && entity.east.Living {
 		neighborCount++
 	}
-	if entity.southeast.Living {
+	if entity.southeast != nil && entity.southeast.Living {
 		neighborCount++
 	}
-	if entity.south.Living {
+	if entity.south != nil && entity.south.Living {
 		neighborCount++
 	}
-	if entity.southwest.Living {
+	if entity.southwest != nil && entity.southwest.Living {
 		neighborCount++
 	}
-	if entity.west.Living {
+	if entity.west != nil && entity.west.Living {
 		neighborCount++
 	}
 	return neighborCount

@@ -7,6 +7,46 @@ import (
 	. "testing"
 )
 
+func TestShouldProgressUniverse(t *T) {
+	expectedLiving := [][]bool{
+		{true, false, true},
+		{false, false, false},
+		{true, false, true},
+	}
+	//AAA
+	//AAA
+	//AAA
+	universe := Universe{3,
+		[][]entity.Entity{
+			{
+				testEntity(nil, nil, nil, alive(), alive(), alive(), nil, nil),
+				testEntity(nil, nil, nil, alive(), alive(), alive(), alive(), alive()),
+				testEntity(nil, nil, nil, nil, nil, alive(), alive(), alive()),
+			},
+			{
+				testEntity(nil, alive(), alive(), alive(), alive(), alive(), nil, nil),
+				testEntity(alive(), alive(), alive(), alive(), alive(), alive(), alive(), alive()),
+				testEntity(alive(), alive(), nil, nil, nil, alive(), alive(), alive()),
+			},
+			{
+				testEntity(nil, alive(), alive(), alive(), nil, nil, nil, nil),
+				testEntity(alive(), alive(), alive(), alive(), nil, nil, nil, alive()),
+				testEntity(alive(), alive(), nil, nil, nil, nil, nil, alive()),
+			},
+		},
+	}
+
+	actualUniverse := universe.Progress()
+	for x, row := range expectedLiving {
+		for y, living := range row {
+			if actualUniverse.Entities[x][y].Living != living {
+				t.Fail()
+			}
+		}
+	}
+
+}
+
 func TestShouldDrawUniverse(t *T) {
 	expected := "-@\n--\n"
 	universe := InitialUniverse(2, 123)
@@ -35,6 +75,39 @@ func TestShouldSetNeighbors(t *T) {
 		}
 	}
 
+}
+
+func TestShouldCreateADeterministicallySeededUniverse(t *T) {
+	universe1 := InitialUniverse(10, 123)
+	universe2 := InitialUniverse(10, 123)
+	universe3 := InitialUniverse(10, 0)
+	if !reflect.DeepEqual(universe1, universe2) {
+		t.Error("universe1 and universe2 had the same seed thus they should be equal")
+	}
+	if reflect.DeepEqual(universe1, universe3) {
+		t.Error("universe1 should have living entities")
+	}
+}
+
+func TestInitialUniverseShouldBeGivenSize(t *T) {
+	size := 25
+	universe := InitialUniverse(size, 0)
+	if len(universe.Entities) != size {
+		t.Fail()
+	}
+	for _, row := range universe.Entities {
+		if len(row) != size {
+			t.Fail()
+		}
+	}
+}
+
+func TestShouldInitializeUniverse(t *T) {
+	universe := InitialUniverse(20, 0)
+
+	if universe.Entities == nil {
+		t.Fail()
+	}
 }
 
 func checkNorth(universe [][]entity.Entity, x, y int, t *T) {
@@ -109,35 +182,30 @@ func checkNorthwest(universe [][]entity.Entity, x, y int, t *T) {
 	}
 }
 
-func TestShouldCreateADeterministicallySeededUniverse(t *T) {
-	universe1 := InitialUniverse(10, 123)
-	universe2 := InitialUniverse(10, 123)
-	universe3 := InitialUniverse(10, 0)
-	if !reflect.DeepEqual(universe1, universe2) {
-		t.Error("universe1 and universe2 had the same seed thus they should be equal")
-	}
-	if reflect.DeepEqual(universe1, universe3) {
-		t.Error("universe1 should have living entities")
-	}
+func testEntity(nw, n, ne, e, se, s, sw, w *entity.Entity) entity.Entity {
+	var testEntity entity.Entity
+	testEntity.Living = true
+	testEntity.SetNorth(n)
+	testEntity.SetNorthwest(nw)
+	testEntity.SetNortheast(ne)
+	testEntity.SetEast(e)
+	testEntity.SetSoutheast(se)
+	testEntity.SetSouth(s)
+	testEntity.SetSouthwest(sw)
+	testEntity.SetWest(w)
+	return testEntity
 }
 
-func TestInitialUniverseShouldBeGivenSize(t *T) {
-	size := 25
-	universe := InitialUniverse(size, 0)
-	if len(universe.Entities) != size {
-		t.Fail()
-	}
-	for _, row := range universe.Entities {
-		if len(row) != size {
-			t.Fail()
-		}
-	}
+func deadEntity(nw, n, ne, e, se, s, sw, w *entity.Entity) entity.Entity {
+	testEntity := testEntity(nw, n, ne, e, se, s, sw, w)
+	testEntity.Living = false
+	return testEntity
 }
 
-func TestShouldInitializeUniverse(t *T) {
-	universe := InitialUniverse(20, 0)
+func alive() *entity.Entity {
+	return &entity.Entity{Living: true}
+}
 
-	if universe.Entities == nil {
-		t.Fail()
-	}
+func dead() *entity.Entity {
+	return &entity.Entity{}
 }

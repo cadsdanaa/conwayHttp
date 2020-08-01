@@ -44,49 +44,6 @@ func TestShouldLiveOn(t *T) {
 	}
 }
 
-func TestShouldDetermineUnderpopulation(t *T) {
-	underpopulationScenarios := []entityTestScenarios{
-		{entity(dead(), dead(), dead(), dead(), dead(), dead(), dead(), dead()), true},
-		{entity(alive(), dead(), dead(), dead(), dead(), dead(), dead(), dead()), true},
-		{entity(dead(), alive(), dead(), dead(), dead(), dead(), dead(), dead()), true},
-		{entity(dead(), dead(), alive(), dead(), dead(), dead(), dead(), dead()), true},
-		{entity(dead(), dead(), dead(), alive(), dead(), dead(), dead(), dead()), true},
-		{entity(dead(), dead(), dead(), dead(), alive(), dead(), dead(), dead()), true},
-		{entity(dead(), dead(), dead(), dead(), dead(), alive(), dead(), dead()), true},
-		{entity(dead(), dead(), dead(), dead(), dead(), dead(), alive(), dead()), true},
-		{entity(dead(), dead(), dead(), dead(), dead(), dead(), dead(), alive()), true},
-		{entity(alive(), alive(), dead(), dead(), dead(), dead(), dead(), dead()), false},
-		{entity(dead(), dead(), alive(), dead(), dead(), alive(), dead(), dead()), false},
-		{entity(dead(), dead(), dead(), alive(), dead(), dead(), dead(), alive()), false},
-	}
-	for _, scenario := range underpopulationScenarios {
-		isUnderpopulated := scenario.inputEntity.IsUnderpopulated()
-		if isUnderpopulated != scenario.result {
-			t.Fail()
-		}
-	}
-}
-
-func TestShouldDetermineOverpopulation(t *T) {
-	overpopulationScenarios := []entityTestScenarios{
-		{entity(dead(), dead(), dead(), dead(), dead(), dead(), dead(), dead()), false},
-		{entity(alive(), dead(), dead(), dead(), dead(), dead(), dead(), dead()), false},
-		{entity(alive(), alive(), dead(), dead(), dead(), dead(), dead(), dead()), false},
-		{entity(alive(), alive(), alive(), dead(), dead(), dead(), dead(), dead()), false},
-		{entity(alive(), alive(), alive(), alive(), dead(), dead(), dead(), dead()), true},
-		{entity(alive(), alive(), alive(), alive(), alive(), dead(), dead(), dead()), true},
-		{entity(alive(), alive(), alive(), alive(), alive(), alive(), dead(), dead()), true},
-		{entity(alive(), alive(), alive(), alive(), alive(), alive(), alive(), dead()), true},
-		{entity(alive(), alive(), alive(), alive(), alive(), alive(), alive(), alive()), true},
-	}
-	for _, scenario := range overpopulationScenarios {
-		isOverpopulated := scenario.inputEntity.IsOverpopulated()
-		if isOverpopulated != scenario.result {
-			t.Fail()
-		}
-	}
-}
-
 func TestShouldGetNorthEntity(t *T) {
 	var someEntity Entity
 	var someOtherEntity Entity
