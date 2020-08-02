@@ -1,4 +1,4 @@
-- name: Publish app to Google App Engine
+name: Publish app to Google App Engine
   uses: zxyle/publish-gae-action@v2.3
   with:
     # The service account email which will be used for authentication.
