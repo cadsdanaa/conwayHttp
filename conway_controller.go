@@ -26,9 +26,10 @@ func conwayClosure() func(w http.ResponseWriter, r *http.Request) {
 	initialUniverse := universe.InitialUniverse(20, 1235412)
 	return func(w http.ResponseWriter, r *http.Request) {
 		initialUniverse.Progress()
-		_, e := w.Write([]byte(universe.Draw(initialUniverse)))
-		if e != nil {
+		_, err := w.Write([]byte(universe.Draw(initialUniverse)))
+		if err != nil {
 			w.WriteHeader(500)
+			log.Fatal(err)
 		}
 	}
 }
