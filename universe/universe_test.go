@@ -1,6 +1,7 @@
 package universe
 
 import (
+	"fmt"
 	"github.com/cadsdanaa/conwayHttp/entity"
 	"reflect"
 	"strings"
@@ -48,10 +49,11 @@ func TestShouldProgressUniverse(t *T) {
 }
 
 func TestShouldDrawUniverse(t *T) {
-	expected := "-@\n--\n"
+	expected := "--\n@-\n"
 	universe := InitialUniverse(2, 123)
 
 	actual := Draw(universe)
+	fmt.Println(actual)
 
 	if strings.TrimSpace(expected) != strings.TrimSpace(actual) {
 		t.Fail()

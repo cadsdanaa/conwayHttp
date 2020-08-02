@@ -16,7 +16,7 @@ func InitialUniverse(universeSize int, universeSeed int64) Universe {
 	rand.Seed(universeSeed)
 	for x, row := range entities {
 		for y := range row {
-			if rand.Intn(4) == 1 {
+			if rand.Intn(6) == 1 {
 				entities[x][y] = entity.Entity{Living: true}
 			}
 			setNeighbors(entities, x, y)

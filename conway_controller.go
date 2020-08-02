@@ -2,16 +2,28 @@ package main
 
 import (
 	"github.com/cadsdanaa/conwayHttp/universe"
+	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
 	http.HandleFunc("/conway", conwayClosure())
-	http.ListenAndServe("localhost:8080", nil)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+		log.Printf("Defaulting to port %s", port)
+	}
+
+	log.Printf("Listening on port %s", port)
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func conwayClosure() func(w http.ResponseWriter, r *http.Request) {
-	initialUniverse := universe.InitialUniverse(30, 1235412)
+	initialUniverse := universe.InitialUniverse(20, 1235412)
 	return func(w http.ResponseWriter, r *http.Request) {
 		initialUniverse.Progress()
 		_, e := w.Write([]byte(universe.Draw(initialUniverse)))
