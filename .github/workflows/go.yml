@@ -38,7 +38,7 @@ jobs:
 
     - name: Package files
       run: |
-        git archive -o ../deploy.zip HEAD
+        zip deploy.zip -r * .[^.]*
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v10
@@ -49,4 +49,4 @@ jobs:
         environment_name: ${{ secrets.AWS_ENVIRONMENT_NAME }}
         version_label: ${{ github.sha }}
         region: ${{ secrets.AWS_REGION }}
-        deployment_package: ../deploy.zip
+        deployment_package: deploy.zip
