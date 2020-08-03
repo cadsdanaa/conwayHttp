@@ -38,7 +38,7 @@ jobs:
 
     - name: Package files
       run: |
-        zip ../deploy.zip -r * .[^.]*
+        git archive -o ../deploy.zip HEAD
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v10
