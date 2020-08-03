@@ -36,15 +36,17 @@ jobs:
     - name: Test
       run: go test -v .
 
-    - name: Publish app to Google App Engine
-      uses: zxyle/publish-gae-action@v2.3
-      with:
-        # The service account email which will be used for authentication.
-        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-        # The service account key which will be used for authentication.
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        # GAE project id
-        project_id: ${{ secrets.GCP_PROJECT_ID }}
-        # GAE variables to be written to the app.yaml file
-        gae_variables: # optional
+    - name: Package files
+      run: |
+        zip ../deploy.zip -r * .[^.]*
 
+    - name: Deploy to Elastic Beanstalk
+      uses: einaregilsson/beanstalk-deploy@v10
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: ${{ secrets.AWS_APPLICATION_NAME }}
+        environment_name: ${{ secrets.AWS_ENVIRONMENT_NAME }}
+        version_label: ${{ GITHUB_SHA }}
+        region: ${{ secrets.AWS_REGION }}
+        deployment_package: deploy.zip
