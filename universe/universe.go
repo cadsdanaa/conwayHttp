@@ -5,8 +5,8 @@ import (
 	"math/rand"
 )
 
+//Universe represents the 'board' as a grid of entities with the given size
 type Universe struct {
-	Size     int
 	Entities [][]entity.Entity
 }
 
@@ -22,9 +22,10 @@ func InitialUniverse(universeSize int, universeSeed int64) Universe {
 			setNeighbors(entities, x, y)
 		}
 	}
-	return Universe{Entities: entities, Size: universeSize}
+	return Universe{Entities: entities}
 }
 
+//Progress will move 'time' forward by one step in the universe
 func (universe Universe) Progress() Universe {
 	for x, row := range universe.Entities {
 		for y := range row {
@@ -39,6 +40,7 @@ func (universe Universe) Progress() Universe {
 	return universe
 }
 
+//Draw will return a string representation of the universe
 func Draw(universe Universe) string {
 	universeString := ""
 	for x, row := range universe.Entities {
@@ -54,7 +56,6 @@ func Draw(universe Universe) string {
 	return universeString
 }
 
-//initialGrid will create a 2 dimensional array 'grid' of entities in a square of the given universeSize
 func initialGrid(universeSize int) [][]entity.Entity {
 	var universe = make([][]entity.Entity, universeSize)
 	for i := 0; i < universeSize; i++ {
@@ -63,7 +64,6 @@ func initialGrid(universeSize int) [][]entity.Entity {
 	return universe
 }
 
-//setNeighbors will initialize each entities neighbors in the universe
 func setNeighbors(universe [][]entity.Entity, x, y int) {
 	setNorthNeighbor(universe, x, y)
 	setNortheastNeighbor(universe, x, y)

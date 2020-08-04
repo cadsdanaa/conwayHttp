@@ -18,7 +18,6 @@ func (entity Entity) Reproduces() bool {
 	return !entity.Living && neighborCount == 3
 }
 
-//totalNeighbors counts the number of living neighbors an entity has
 func totalNeighbors(entity Entity) int {
 	var neighborCount = 0
 	if entity.northwest != nil && entity.northwest.Living {

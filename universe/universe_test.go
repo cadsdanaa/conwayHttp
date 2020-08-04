@@ -16,7 +16,7 @@ func TestShouldProgressUniverse(t *T) {
 	//AAA
 	//AAA
 	//AAA
-	universe := Universe{3,
+	universe := Universe{
 		[][]entity.Entity{
 			{
 				testEntity(nil, nil, nil, alive(), alive(), alive(), nil, nil),
