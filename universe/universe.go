@@ -44,9 +44,9 @@ func Draw(universe Universe) string {
 	for x, row := range universe.Entities {
 		for y := range row {
 			if universe.Entities[x][y].Living {
-				universeString += "@"
+				universeString += "@ "
 			} else {
-				universeString += "-"
+				universeString += "- "
 			}
 		}
 		universeString += "\n"
