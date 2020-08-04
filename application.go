@@ -4,18 +4,11 @@ import (
 	"github.com/cadsdanaa/conwayHttp/universe"
 	"log"
 	"net/http"
-	"os"
 )
 
 func main() {
 	http.HandleFunc("/conway", conwayClosure())
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-		log.Printf("Defaulting to port %s", port)
-	}
-
+	port := "5000"
 	log.Printf("Listening on port %s", port)
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal(err)
