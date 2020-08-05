@@ -46,7 +46,7 @@ jobs:
 
     - name: Package files
       run: |
-        git ls-files -z | xargs -0 tar -czvf deploy.tar
+        git ls-files -z | xargs -0 tar -czvf ../../deploy.tar
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v10
