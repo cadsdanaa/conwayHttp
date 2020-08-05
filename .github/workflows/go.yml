@@ -45,10 +45,9 @@ jobs:
       run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%s')"
 
     - name: Fill secrets for deployment
-      id: secrets
-      env:
-        CONWAY_PASSWORD: ${{ secrets.CONWAY_PASSWORD }}
-      run: envsubst < ".ebextensions/options.config" | tee ".ebextensions/options.config"
+      run:
+        echo    CONWAY_PASSWORD: ${{ secrets.CONWAY_PASSWORD }} >> '.ebextensions/options.config'
+
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v10
