@@ -46,8 +46,9 @@ jobs:
 
     - name: Fill secrets for deployment
       run: |
-        echo    CONWAY_PASSWORD: ${{ secrets.CONWAY_PASSWORD }} >> '.ebextensions/options.config'
-
+        stty -echo
+        echo    CONWAY_PASSWORD: "${{ secrets.CONWAY_PASSWORD }}" >> '.ebextensions/options.config'
+        stty echo
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v10
