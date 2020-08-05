@@ -36,10 +36,6 @@ jobs:
     - name: Test
       run: go test -v .
 
-    - name: Package files
-      run: |
-        git archive -o ../../deploy.zip HEAD
-
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%s')"
@@ -47,6 +43,10 @@ jobs:
     - name: Fill secrets for deployment
       run: |
         echo    CONWAY_PASSWORD: "${{ secrets.CONWAY_PASSWORD }}" >> '.ebextensions/options.config'
+
+    - name: Package files
+      run: |
+        git archive -o ../../deploy.zip HEAD
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v10
