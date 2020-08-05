@@ -45,7 +45,7 @@ jobs:
       run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%s')"
 
     - name: Fill secrets for deployment
-      run:
+      run: |
         echo    CONWAY_PASSWORD: ${{ secrets.CONWAY_PASSWORD }} >> '.ebextensions/options.config'
 
 
