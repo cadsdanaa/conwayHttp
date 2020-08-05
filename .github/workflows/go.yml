@@ -46,7 +46,9 @@ jobs:
 
     - name: Fill secrets for deployment
       id: secrets
-      run: envsubst < ../../.ebextensions/options.config | tee ../../.ebextensions/options.config
+      env:
+        CONWAY_PASSWORD: ${{ secrets.CONWAY_PASSWORD }}
+      run: envsubst < "../../.ebextensions/options.config" | tee "../../.ebextensions/options.config"
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v10
