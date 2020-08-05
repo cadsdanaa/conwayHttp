@@ -14,3 +14,5 @@
 #IntelliJ Files
 *.iml
 .idea
+
+app-local.yml

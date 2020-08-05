@@ -44,6 +44,14 @@ jobs:
       id: date
       run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%s')"
 
+    - name: Replace secrets in ebextension
+      uses: danielr1996/envsubst-action@1.0.0
+      env:
+        CONWAY_PASSWORD: ${{ secrets.CONWAY_PASSWORD }}
+      with:
+        input: ../../.ebextensions/options.config
+        output: ../../.ebextensions/options.config
+
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v10
       with:
